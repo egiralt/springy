@@ -1,2 +1,3 @@
 # springy
-OOP Framework for ElasticSearch
+Framework Orientado a Objetos para Consultas de ElasticSearch 
+

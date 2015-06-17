@@ -124,14 +124,13 @@ class MultiMatch extends Match
 	 */
 	public function toStdClass()
 	{
-		$command = $this->getCommandName();
-		$parentCommand = parent::getCommandName();
-		
-		$result = new \stdClass();
-		
 		// Ahora se utiliza el algoritmo del Match, cambiando solo el nombre del comando
-		$parentResult = parent::toStdClass();
-		$result->$command = $parentResult->$parentCommand;
+		$parentCommand = parent::getCommandName();
+		$result = parent::toStdClass();
+		
+		//$result = new \stdClass();
+		$command = $this->getCommandName();
+		//$result->$command = $parentResult->$parentCommand;
 		
 		// Y el resto de campos específicos de multi_match
 		if (!empty($this->_tie_breaker))

@@ -12,33 +12,25 @@ use Springy\Query;
 use Springy\Search;
 use Springy\GeoCoordinates;
 
-$multiMatch = new MultiMatch(['givenName', "middleName"], 'giralt');
-$multiMatch->setAnalyzer("test");
+$multiMatch = new MultiMatch(['data.givenName', "data.middleName"], 'giralt');
+$multiMatch->setAnalyzer("names");
 $multiMatch->setMatchQueryType(MultiMatch::MULTIMATCH_QUERY_TYPE_BEST_FIELDS);
 $multiMatch->setTieBreaker(0.3);
 
-$query = new Term("name", "ernesto");
-$filter = new \Springy\DSL\Filters\TermFilter($query);
-
-$nestedSortParameter = new SortParameter ("fullname", Sort::SORT_ORDER_ASC);
-$nestedSortParameter->setNestedPath('data.color');
-$nestedSortParameter->setNestedFilter(new RangeFilter('data.height', null, 200));
-
-$bool =	new Query(Query::bool()
-			->must($filter)
-			->must(Query::regexp('name.first', 's.*y')
-					->setFlags('INTERSECTION|COMPLEMENT|EMPTY'))
-		);
-
 $es = new Search();
-$es->search($filter)
+$es->search(new Query (
+	Query::bool()
+		->must(
+				Query::multiMatch(['data.givenName', "data.middleName"], 'giralt')
+					->setAnalyzer("names")
+					->setMatchQueryType(MultiMatch::MULTIMATCH_QUERY_TYPE_BEST_FIELDS)
+					->setTieBreaker(0.3)			)
+		->must(
+				Query::regexp('data.city', 's.*y')
+					->setFlags('INTERSECTION|COMPLEMENT|EMPTY'))))
 	->setSourceFilter("data.*")
-	->sort ( 
-			$nestedSortParameter,
-			new DistanceSortParameter ( 
-					new GeoCoordinates(70, -40), 
-					DistanceSortParameter::UNIT_METERS)
-		);
+	->sort (new SortParameter ("givenName", Sort::SORT_ORDER_ASC)
+  );
 
 echo ($es->toJSON(true));
 	

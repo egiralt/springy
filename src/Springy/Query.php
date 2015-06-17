@@ -117,12 +117,12 @@ class Query extends BaseCommand
 	 * @param string $value
 	 * @return \Springy\DSL\MultiMatch
 	 */
-	static public function multiMatch ($fields, $values)
+	static public function multiMatch ($fields, $value)
 	{
-		Assertion::notEmpty($field);
+		Assertion::notEmpty($fields);
 		Assertion::notEmpty($value);
 		
-		$result = new DSL\MultiMatch($fields, $values);
+		$result = new DSL\MultiMatch($fields, $value);
 		//$this->setQuery($result);
 	
 		return $result;

@@ -29,10 +29,7 @@ Produces this JSON:
             "must": [
                 {
                     "multi_match": {
-                        "fields": [
-                            "data.givenName",
-                            "data.middleName"
-                        ],
+                        "fields": [ "data.givenName", "data.middleName" ],
                         "query": "giralt",
                         "analyzer": "names",
                         "type": "best_fields",

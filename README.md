@@ -2,7 +2,7 @@
 OOP Query Framework for ElasticSearch 
 
 this PHP code:
-<code>
+```php
 
 	$es = new Search();
 	$es->search(new Query (
@@ -19,10 +19,10 @@ this PHP code:
 		->sort (new SortParameter ("givenName", Sort::SORT_ORDER_ASC)
 	  );
   	
-</code>
+```
 
 Produces this JSON:
-<code>
+```json
 {
     "query": {
         "bool": {
@@ -59,4 +59,4 @@ Produces this JSON:
         }
     ]
 }
-</code>
+```
